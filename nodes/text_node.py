@@ -14,7 +14,9 @@ class TextNode(SceneNode):
     text: str
 
     def set_text(self, text: str) -> None:
-        if text == self.text:
+        self_text = getattr(self, "text", None)
+        
+        if self_text == text:
             return
 
         self.text = text
@@ -28,10 +30,19 @@ class TextNode(SceneNode):
             "text": self.text
         } | super().serialize()
     
-    def deserialize(self, data: dict) -> None:
-        super().deserialize(data)
+    def initialize(self, data: dict) -> None:
+        super().initialize(data)
 
         text: str = data["text"]
+
+        self.set_text(text)
+
+    def deserialize(self, serialized_data: dict) -> dict:
+        text: str = serialized_data["text"]
         
         self.text = text
         self.set_text(text)
+
+        return {
+            "text": text
+        } | super().deserialize(serialized_data) 

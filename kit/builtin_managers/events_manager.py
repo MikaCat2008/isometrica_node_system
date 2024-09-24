@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from pygame.event import Event
 
-from .manager import Manager
+from ..manager import Manager
 
 
 class EventsManager(Manager, init=False):

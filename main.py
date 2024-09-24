@@ -1,15 +1,16 @@
+
 from __future__ import annotations
 
 import random
 import pygame as pg
 
-from kit import GameConfig, GameManager
-from scene import Scene
-from scenes_manager import ScenesManager
+from kit import Node, GameConfig, GameManager
+from kit.scene.scene import Scene
+from kit.scene.scene_manager import ScenesManager
 from textures_manager import TexturesManager
 
-from nodes import nodes
-from components import components
+# from nodes import nodes, TextNode
+# from components import components, FpsTextComponent, RandomizedTextComponent
 
 pg.init()
 
@@ -20,45 +21,8 @@ class Game(GameManager, init=False):
 
         TexturesManager()
 
-        self.nodes.register_nodes(nodes)
-        self.components.register_components(components)
+        self.nodes.
 
-        main_scene = Scene({
-            "root_node": {
-                "nodes": [
-                    {
-                        "nodes": [],
-                        "components": [
-                            {
-                                "__component_name__": "FpsTextComponent"
-                            }
-                        ],
-
-                        "text": "",
-                        "position": [0, 0],
-
-                        "__node_name__": "TextNode"
-                    }
-                ] + [
-                    {
-                        "nodes": [],
-                        "components": [
-                            {
-                                "__component_name__": "RandomizedTextComponent"
-                            }
-                        ],
-
-                        "text": "",
-                        "position": (random.randint(0, 512), random.randint(0, 288)),
-
-                        "__node_name__": "TextNode"
-                    }
-                    for _ in range(3_000)
-                ],
-                "components": []
-            }
-        })
-        
         self.scenes = ScenesManager()
         self.scenes.add_scene("main-scene", main_scene)
         self.scenes.set_current("main-scene")

@@ -7,14 +7,14 @@ from pygame.event import get as get_events
 from pygame.surface import Surface
 from pygame.display import flip, set_mode
 
-from ..serializable import GameConfig
+from .serialization import GameConfig
 
-from .node import Node
+from .node.node import Node
 from .manager import Manager
-from .ticks_manager import TicksManager
-from .nodes_manager import NodesManager
-from .events_manager import EventsManager
-from .components_manager import ComponentsManager
+from .builtin_managers.ticks_manager import TicksManager
+from .node.node_manager import NodesManager
+from .builtin_managers.events_manager import EventsManager
+from .component.component_manager import ComponentsManager
 
 
 class GameManager(Manager, init=False):

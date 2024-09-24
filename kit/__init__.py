@@ -1,25 +1,25 @@
-from .managers import (
+from .serialization import (
+    Serializable as Serializable,
+    SerializableManager as SerializableManager
+)
+
+from .node import (
     Node as Node,
-    Manager as Manager,
+    NodeManager as NodeManager
+)
+from .scene import (
+    Scene as Scene,
+    SceneManager as SceneManager,
+)
+from .component import (
     Component as Component,
-    GameManager as GameManager,
-    TicksManager as TicksManager,
-    NodesManager as NodesManager,
-    EventsManager as EventsManager,
     ComponentsManager as ComponentsManager
 )
-from .serializable import (
-    GameConfig as GameConfig,
-    Serializable as Serializable
+
+from .game import GameManager as GameManager
+from .manager import Manager as Manager
+from .game_config import GameConfig as GameConfig
+from .builtin_managers import (
+    TicksManager as TicksManager,
+    EventsManager as EventsManager
 )
-
-
-def nround(number: float) -> int:
-    inumber = int(number)
-    real = number - inumber
-    sign = real >= 0
-    
-    if sign:
-        return inumber if real < 0.5 else inumber + 1
-    
-    return inumber if real > -0.5 else inumber - 1

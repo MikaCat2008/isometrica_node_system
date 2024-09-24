@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .manager import Manager
+from ..manager import Manager
 
 if TYPE_CHECKING:
     from .node import Node

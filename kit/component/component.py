@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import ClassVar, TYPE_CHECKING
+from typing import Any, ClassVar, TYPE_CHECKING
 
-from ..serializable import Serializable
+from ..serialization import Serializable
 
 if TYPE_CHECKING:
-    from .node import Node
+    from ..node.node import Node
 
 
 class Component(Serializable):   
@@ -21,5 +21,8 @@ class Component(Serializable):
             "__component_name__": self.__class__.__name__
         }
 
-    def deserialize(self, data: dict) -> None:
+    def initialize(self, data: dict) -> None:
         ...
+
+    def deserialize(self, serialized_data: dict) -> dict:
+        return {}

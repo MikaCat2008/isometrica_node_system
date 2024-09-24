@@ -1,6 +1,6 @@
 from typing import Callable 
 
-from .manager import Manager
+from ..manager import Manager
 
 
 class TicksManager(Manager, init=False):

@@ -13,7 +13,6 @@ if TYPE_CHECKING:
 
 class FpsTextComponent(Component):
     node: TextNode
-
     game: GameManager
 
     def set_fps(self) -> None:
@@ -24,8 +23,9 @@ class FpsTextComponent(Component):
 
         self.node.set_text(f"{fps} fps")
 
-    def deserialize(self, data: dict) -> None:
-        super().deserialize(data)
-
+    def initialize(self, data: dict) -> None:
         self.game = GameManager.get_instance()
         self.game.ticks.register(5, self.set_fps)
+
+    def deserialize(self, serialized_data: dict) -> dict:
+        return {}

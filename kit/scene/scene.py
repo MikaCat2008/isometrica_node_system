@@ -23,11 +23,22 @@ class Scene(Serializable):
         return {
             "root_node": self.root_node.serialize()
         }
+    
+    def initialize(self, data: dict) -> None:
+        super().initialize(data)
 
-    def deserialize(self, data: dict) -> None:
-        root_node: dict = data["root_node"]
+        root_node: Node = data["root_node"]
 
         self.game = GameManager.get_instance()
         self.game.ticks.register(1, self.update)
 
-        self.root_node = Node(root_node)
+        self.root_node = root_node
+
+    def deserialize(self, serialized_data: dict) -> None:
+        serialized_root_node: dict = serialized_data["root_node"]
+
+        root_node = Node(serialized_root_node)
+
+        return {
+            "root_node": root_node
+        }
