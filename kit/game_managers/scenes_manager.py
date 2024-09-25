@@ -16,15 +16,19 @@ class ScenesManager(Manager, init=False):
         self.scenes = {}
         self.current_scene = None
 
-    def add_scene(self, name: str, scene: Scene) -> None:
+    def create_scene(self, name: str) -> Scene:
+        scene = Scene()
+        
         self.scenes[name] = scene
+
+        return scene
     
     def set_current(self, name: str) -> None:
         self.current_scene = self.scenes[name]
 
     def check_current_scene(self) -> None:
         if self.current_scene is None:
-            raise ValueError("Current scene didn't set yet")
+            raise ValueError("Current scene has not yet been set")
  
     def draw(self) -> None:
         self.check_current_scene()

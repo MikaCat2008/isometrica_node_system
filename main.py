@@ -19,7 +19,9 @@ class Game(GameManager, init=False):
 
         TexturesManager()
 
-        main_scene = Scene()
+        main_scene = self.scenes.create_scene("main_scene")
+        self.scenes.set_current("main_scene")
+
         main_scene.update_fields(
             root_node=Node().update_fields(
                 nodes=[
@@ -41,9 +43,6 @@ class Game(GameManager, init=False):
                 ]
             )
         )
-
-        self.scenes.add_scene("main-scene", main_scene)
-        self.scenes.set_current("main-scene")
 
     def draw(self) -> None:
         self.scenes.draw()

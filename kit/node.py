@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from typing import TypeVar, Optional, Generator, TYPE_CHECKING
 
+from .manager import Manager
 from .serialization import serialize_field, Serializable
 
 if TYPE_CHECKING:
     from .scene import Scene
     from .component import Component
+    from .game_managers.scenes_manager import ScenesManager
 
 NodeT = TypeVar("NodeT", bound="Node")
 
@@ -17,22 +19,22 @@ class Node(Serializable):
 
     scene: Scene
     parent: Optional[Node] = None
-    is_alive: bool
+    is_alive: bool = True
 
     def __init__(self) -> None:
         super().__init__()
 
-        self.is_alive = True
+        scenes_manager: ScenesManager = Manager.get_instance_by_name("ScenesManager")
 
-        for node in self.nodes:
-            node.parent = self
-
-        for component in self.components:
-            component.node = self
+        self.scene = scenes_manager.current_scene
 
     def add_nodes(self, *nodes: Node) -> None:
         self.nodes.extend(
-            node.update_fields(parent=self) for node in nodes
+            node.update_fields(
+                scene=self.scene, 
+                parent=self
+            ) 
+            for node in nodes
         )
 
     def remove_node(self, node: Node) -> None:
@@ -59,19 +61,24 @@ class Node(Serializable):
         return self._nodes
     
     @nodes.setter
-    def nodes(self, value: list[Node]) -> None:
-        self._nodes = value
-
-        for node in self.nodes:
-            node.parent = self
+    def nodes(self, nodes: list[Node]) -> None:
+        self._nodes = [
+            node.update_fields(
+                scene=self.scene,
+                parent=self
+            )
+            for node in nodes
+        ]
 
     @property
     def components(self) -> list[Component]:
         return self._components
     
     @components.setter
-    def components(self, value: list[Component]) -> None:
-        self._components = value
-
-        for component in self.components:
-            component.node = self
+    def components(self, components: list[Component]) -> None:
+        self._components = [
+            component.update_fields(
+                node=self
+            )
+            for component in components
+        ]

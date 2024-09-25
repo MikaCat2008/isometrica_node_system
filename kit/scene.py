@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class Scene(Serializable):
-    root_node: Node = serialize_field(Node)
+    root_node: Node = serialize_field(Node, lambda: Node())
 
     game: GameManager
 
@@ -34,3 +34,4 @@ class Scene(Serializable):
             for node in self.root_node.get_nodes()
             if isinstance(node, DrawableNode)
         )
+
