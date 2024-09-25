@@ -13,23 +13,21 @@ class Manager:
         if init:
             cls()
 
-    def __init__(self) -> None:
-        cls = self.__class__
-        
-        for _cls in cls.__mro__:
-            if _cls is not Manager and Manager in _cls.__mro__:
-                _cls.set_instance(self)
-    
-        cls.instances[cls.__name__] = self
+    def __init__(self) -> None:   
+        for cls in self.__class__.__mro__:
+            if cls is not Manager and Manager in cls.__mro__:
+                cls.set_instance(self)
+
 
     @classmethod
     def set_instance(cls, instance: Manager) -> None:
         cls.instance = instance
+        cls.instances[cls.__name__] = instance
 
     @classmethod
     def get_instance(cls: Type[ManagerT]) -> ManagerT:
         return cls.instance
 
     @classmethod
-    def get_manager(cls, name: str) -> Manager:
+    def get_instance_by_name(cls, name: str) -> Manager:
         return cls.instances[name]

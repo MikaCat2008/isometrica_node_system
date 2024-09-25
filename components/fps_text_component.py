@@ -3,8 +3,6 @@ from __future__ import annotations
 import math
 from typing import TYPE_CHECKING
 
-import pygame as pg
-
 from kit import Component, GameManager
 
 if TYPE_CHECKING:
@@ -15,17 +13,16 @@ class FpsTextComponent(Component):
     node: TextNode
     game: GameManager
 
-    def set_fps(self) -> None:
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.game = GameManager.get_instance()
+        self.game.ticks.register(5, self.update_fps)
+
+    def update_fps(self) -> None:
         fps = self.game.fps
 
         if math.isfinite(fps):
             fps = int(fps)
 
-        self.node.set_text(f"{fps} fps")
-
-    def initialize(self, data: dict) -> None:
-        self.game = GameManager.get_instance()
-        self.game.ticks.register(5, self.set_fps)
-
-    def deserialize(self, serialized_data: dict) -> dict:
-        return {}
+        self.node.text = f"{fps} fps"

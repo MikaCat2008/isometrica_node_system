@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import time
 
 from pygame.time import Clock
@@ -7,23 +5,20 @@ from pygame.event import get as get_events
 from pygame.surface import Surface
 from pygame.display import flip, set_mode
 
-from .serialization import GameConfig
+from ..manager import Manager
+from ..game_config import GameConfig
 
-from .node.node import Node
-from .manager import Manager
-from .builtin_managers.ticks_manager import TicksManager
-from .node.node_manager import NodesManager
-from .builtin_managers.events_manager import EventsManager
-from .component.component_manager import ComponentsManager
+from .ticks_manager import TicksManager
+from .events_manager import EventsManager
+from .scenes_manager import ScenesManager
 
 
 class GameManager(Manager, init=False):
     fps: float
     clock: Clock
     ticks: TicksManager
-    nodes: NodesManager
     events: EventsManager
-    components: ComponentsManager
+    scenes: ScenesManager
 
     screen: Surface
 
@@ -36,11 +31,8 @@ class GameManager(Manager, init=False):
         self.fps = 0
         self.clock = Clock()
         self.ticks = TicksManager()
-        self.nodes = NodesManager()
         self.events = EventsManager()
-        self.components = ComponentsManager()
-
-        self.nodes.register_nodes([Node])
+        self.scenes = ScenesManager()
 
         self.screen = set_mode(
             size=config.screen_size, 

@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
 
-if TYPE_CHECKING:
-    from kit import Scene
-
-from kit import Manager
+from ..scene import Scene
+from ..manager import Manager
 
 
 class ScenesManager(Manager, init=False):

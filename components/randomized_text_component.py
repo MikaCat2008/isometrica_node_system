@@ -11,15 +11,11 @@ if TYPE_CHECKING:
 
 class RandomizedTextComponent(Component):
     node: TextNode
-
     game: GameManager
 
-    def set_text(self) -> None:
-        self.node.set_text(str(random.randint(100_000, 999_999)))
+    def update_value(self) -> None:
+        self.node.text = str(random.randint(100_000, 999_999))
 
-    def initialize(self, data: dict) -> None:
+    def __init__(self) -> None:
         self.game = GameManager.get_instance()
-        self.game.ticks.register(1, self.set_text)
-
-    def deserialize(self, serialized_data: dict) -> dict:
-        return {}
+        self.game.ticks.register(1, self.update_value)
